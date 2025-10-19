@@ -15,6 +15,15 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+Route::post('/broadcast', function () {
+    Broadcast::on('global')
+        ->as('Message')
+        ->with([
+            'body' => str()->random(10),
+        ])
+        ->sendNow();
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
